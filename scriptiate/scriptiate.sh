@@ -7,7 +7,7 @@ set -C
 #    exit 2
 #fi
 
-if read line
+if read -t 0.5 line
 then
     echo $line > $filename
     while read line
@@ -17,7 +17,11 @@ then
     chmod u+x $filename
     exit 0
 else
-    echo '#!/bin/bash' > $filename
-    chmod u+x $filename
-    vim $filename
+    if echo '#!/bin/bash' > $filename
+    then
+        chmod u+x $filename
+        vim $filename
+    else
+        exit $?
+    fi
 fi
